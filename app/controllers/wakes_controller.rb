@@ -1,0 +1,2 @@
+class WakesController < ApplicationController
+end

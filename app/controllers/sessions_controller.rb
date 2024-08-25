@@ -11,4 +11,10 @@ class SessionsController < ApplicationController
     end
     render json: {token: token}
   end
+
+  def delete
+    @current_user.update(jti: SecureRandom.uuid)
+    render json: {message: 'logout successfully.'}
+  end
+
 end

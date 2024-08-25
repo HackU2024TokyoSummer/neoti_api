@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_25_051658) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_25_140708) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -19,4 +19,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_25_051658) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "wakes", force: :cascade do |t|
+    t.datetime "wake_time"
+    t.boolean "neoti", default: false
+    t.boolean "waked", default: false
+    t.integer "user_id"
+    t.integer "billing"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_wakes_on_user_id"
+  end
+
+  add_foreign_key "wakes", "users"
 end
