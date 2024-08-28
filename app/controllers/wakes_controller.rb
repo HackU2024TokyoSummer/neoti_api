@@ -1,7 +1,7 @@
 class WakesController < ApplicationController
 
   def index
-    wakes = @current_user.wakes.where()
+    wakes = @current_user.wakes.where(waked: false)
 
     render json: wakes.as_json(only: [:id, :wake_time])
   end
