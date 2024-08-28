@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   get '/wakes' => 'wakes#index', as: :wakes_index
-  post '/wakes/create/:wake_time' => 'wakes#create', as: :wakes_create
+  post '/wakes/create' => 'wakes#create', as: :wakes_create
   # resources :wakes
   # Defines the root path route ("/")
   # root "posts#index"
