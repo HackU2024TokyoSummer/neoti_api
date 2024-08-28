@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   post "/login", to: 'sessions#create'
-  get "/logout", to: "sessions#destroy"
+  get "/logout", to: "sessions#delete"
 
   resources :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  resources :wakes
+  get '/wakes' => 'wakes#index', as: :wakes_index
+  post '/wakes/create/:wake_time' => 'wakes#create', as: :wakes_create
+  # resources :wakes
   # Defines the root path route ("/")
   # root "posts#index"
 end

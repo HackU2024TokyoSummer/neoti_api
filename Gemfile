@@ -3,7 +3,9 @@ source "https://rubygems.org"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.2.1"
 # Use sqlite3 as the database for Active Record
-gem "sqlite3", ">= 1.4"
+# gem "sqlite3", ">= 1.4"
+gem 'sqlite3', group: :development
+gem 'pg', group: :production
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -24,6 +26,9 @@ gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 gem "bootsnap", require: false
 
 gem 'jwt'
+
+gem "stripe"
+
 
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
