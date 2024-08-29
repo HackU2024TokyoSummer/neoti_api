@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "rails/db:migrate:status"
   post "/login", to: 'sessions#create'
   get "/logout", to: "sessions#delete"
 

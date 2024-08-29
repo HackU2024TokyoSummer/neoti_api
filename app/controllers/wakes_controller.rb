@@ -10,4 +10,8 @@ class WakesController < ApplicationController
 
     render json: wake, status: :ok
   end
+
+  def past
+    total_money = Wake.where(user_id: current_user.id, neoti: true).sum(:billing)
+  end
 end
