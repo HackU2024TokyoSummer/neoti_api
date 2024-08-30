@@ -26,9 +26,16 @@ class WakesController < ApplicationController
 
     render json: {
       total_money: total_money,
-      history: history.as_json(only: [:id, :wake_time, :billing]) # 必要な属性のみを含める
+      history: history.as_json(only: [:id, :wake_time, :billing])
     }, status: :ok
 
+  end
+
+  def neoti
+    user = User.find_by(email: params[:email])
+    res = Wake.where(user_id: user.id).update!(neoti: true)
+
+    render json: res, status: :ok
   end
 end
 
