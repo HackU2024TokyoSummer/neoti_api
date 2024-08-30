@@ -8,7 +8,7 @@ class User < ApplicationRecord
   # passwordカラムにバリデーションを設定してください
   validates :password, {presence: true}
   def generate_token
-    JWT.encode({ user_id: id, jti: jti }, Rails.application.secrets.secret_key_base)
+    JWT.encode({ user_id: id, jti: jti }, Rails.application.secret_key_base)
   end
 
   def generate_jti
