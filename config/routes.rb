@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get "rails/db:migrate:status"
   post "/login", to: 'sessions#create'
   get "/logout", to: "sessions#delete"
 
@@ -12,6 +11,8 @@ Rails.application.routes.draw do
 
   get '/wakes' => 'wakes#index', as: :wakes_index
   post '/wakes/create' => 'wakes#create', as: :wakes_create
+
+  post '/customers' => 'customers#main'
   # resources :wakes
   # Defines the root path route ("/")
   # root "posts#index"

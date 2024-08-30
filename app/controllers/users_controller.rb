@@ -23,9 +23,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       token = @user.generate_token
-      render json: { message: 'User created successfully', user: @user, token: token }, status: :ok
+      render json: { message: 'User created successfully', user: @user.as_json, token: token }, status: :ok
     else
-      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @user.errors.full_messages.as_json }, status: :unprocessable_entity
     end
   end
 

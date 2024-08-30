@@ -12,9 +12,7 @@ class ApplicationController < ActionController::API
     end
     begin
       # トークンをデコード
-      decoded = HashWithIndifferentAccess.new (
-                                                JWT.decode(token, Rails.application.credentials[:secret_key_base])[0]
-                                              )
+      decoded = HashWithIndifferentAccess.new (JWT.decode(token, Rails.application.credentials[:secret_key_base])[0])
 
       # expが切れているかチェック
       if decoded[:exp].nil? || decoded[:exp] < Time.now.to_i

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :wakes
+  has_one :customer
 
   validates :name, {presence: true}
   validates :email, {presence: true, uniqueness: true}
