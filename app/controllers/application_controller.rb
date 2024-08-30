@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
     end
 
     begin
-      decoded = JWT.decode(token, Rails.application.credentials.secret_key_base, true, { algorithm: 'HS256' })[0]
+      decoded = JWT.decode(token, Rails.application.secret_key_base, true, { algorithm: 'HS256' })[0]
       Rails.logger.debug "Decoded Token: #{decoded}"
 
       # expが切れているかチェック
