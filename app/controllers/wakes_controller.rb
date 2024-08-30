@@ -1,8 +1,11 @@
+require 'time'
+
+
 class WakesController < ApplicationController
   skip_before_action :verify_token
   def index
     user = User.find_by(email: params[:email])
-    wakes = Wake.where(user_id: user.id)
+    wakes = Wake.where(user_id: user.id).where('wake_time > ?', Time.current)
 
     puts wakes
 
@@ -12,12 +15,20 @@ class WakesController < ApplicationController
     user = User.find_by(email: params[:email])
     time = DateTime.parse(params[:wake_time])
     wake = Wake.create!(wake_time: time, user_id: user.id, billing: params[:billing])
-
     render json: wake, status: :ok
   end
 
   def past
-    total_money = Wake.where(user_id: current_user.id, neoti: true).sum(:billing)
+    user = User.find_by(email: params[:email])
+    total_money = Wake.where(user_id: user.id, neoti: true).sum(:billing)
+    history = Wake.where(user_id: user.id, neoti: true).where('wake_time < ?', Time.current)
+
+
+    render json: {
+      total_money: total_money,
+      history: history.as_json(only: [:id, :wake_time, :billing]) # 必要な属性のみを含める
+    }, status: :ok
+
   end
 end
 
