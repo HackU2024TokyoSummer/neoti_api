@@ -15,6 +15,10 @@ class WakesController < ApplicationController
   end
 
   def past
-    total_money = Wake.where(user_id: current_user.id, neoti: true).sum(:billing)
+    user = User.find_by(email: params[:email])
+    total_money = Wake.where(user_id: user.id, neoti: true).sum(:billing)
+    all_wakes = user.wakes.where(user_id: user.id)
+
+    render json: [all_wakes, total_money].as_json, status: :ok
   end
 end
