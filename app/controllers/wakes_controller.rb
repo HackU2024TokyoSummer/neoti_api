@@ -7,16 +7,27 @@ class WakesController < ApplicationController
   end
 
   def create
-    time = DateTime.parse(params[:wake_time])
-    wake = current_user.wakes.new(wake_time: time, billing: params[:billing])
+    Rails.logger.debug "Create action started"
+    Rails.logger.debug "Current User: #{current_user.inspect}"
+    Rails.logger.debug "Params: #{params.inspect}"
+
+    wake_params = params.permit(:wake_time, :billing)
+    time = wake_params[:wake_time].present? ? DateTime.parse(wake_params[:wake_time]) : DateTime.now
+    wake = current_user.wakes.new(wake_time: time, billing: wake_params[:billing])
 
     if wake.save
+      Rails.logger.debug "Wake saved successfully"
       render json: wake, status: :created
     else
+      Rails.logger.warn "Wake save failed: #{wake.errors.full_messages}"
       render json: { errors: wake.errors.full_messages }, status: :unprocessable_entity
     end
   rescue ArgumentError => e
+    Rails.logger.error "Invalid date format: #{e.message}"
     render json: { error: "Invalid date format: #{e.message}" }, status: :bad_request
+  rescue StandardError => e
+    Rails.logger.error "Unexpected error in create action: #{e.message}"
+    render json: { error: "An unexpected error occurred" }, status::internal_server_error
   end
 
   def past
