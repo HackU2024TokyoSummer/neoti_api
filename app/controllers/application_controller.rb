@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
   private
 
   def verify_token
-    token = request.headers['Authorization'].split(" ")[1]
+    token = request.headers['Authorization']
 
     unless token.present?
       render json: { error: 'Authorization header is missing' }, status: :unauthorized
