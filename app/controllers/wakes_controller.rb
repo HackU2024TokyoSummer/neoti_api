@@ -20,7 +20,7 @@ class WakesController < ApplicationController
 
   def past
     user = User.find_by(email: params[:email])
-    total_money = Wake.where(user_id: user.id, neoti: true).sum(:billing)
+    total_money = Wake.where(user_id: user.id, neoti: true).where('wake_time < ?', Time.current).sum(:billing)
     history = Wake.where(user_id: user.id, neoti: true).where('wake_time < ?', Time.current)
 
 
