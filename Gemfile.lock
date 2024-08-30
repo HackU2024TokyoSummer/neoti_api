@@ -219,7 +219,6 @@ GEM
     securerandom (0.3.1)
     sqlite3 (2.0.4)
       mini_portile2 (~> 2.8.0)
-    sqlite3 (2.0.4-x86_64-darwin)
     stringio (3.1.1)
     stripe (12.5.0)
     strscan (3.1.0)
@@ -256,6 +255,9 @@ DEPENDENCIES
   sqlite3
   stripe
   tzinfo-data
+
+RUBY VERSION
+   ruby 3.1.2p20
 
 BUNDLED WITH
    2.3.7
