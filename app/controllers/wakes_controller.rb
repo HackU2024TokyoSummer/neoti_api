@@ -1,7 +1,8 @@
 class WakesController < ApplicationController
-  before_action :authorize
+  # skip_before_action :authorize
   def index
-    wakes = @current_user.wakes.where(waked: false)
+    user = User.find_by(email: params[:email])
+    wakes = user.wakes
 
     render json: wakes.as_json(only: [:id, :wake_time, :billing])
   end
