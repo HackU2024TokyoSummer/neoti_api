@@ -1,5 +1,5 @@
 class WakesController < ApplicationController
-  before_action :set_user
+  before_action :authorize
   def index
     wakes = @current_user.wakes.where(waked: false)
 
