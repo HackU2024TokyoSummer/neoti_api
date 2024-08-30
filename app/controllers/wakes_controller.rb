@@ -8,8 +8,15 @@ class WakesController < ApplicationController
 
   def create
     time = DateTime.parse(params[:wake_time])
-    wake = current_user.wakes.create!(wake_time: time, billing: params[:billing])
-    render json: wake, status: :created
+    wake = current_user.wakes.new(wake_time: time, billing: params[:billing])
+
+    if wake.save
+      render json: wake, status: :created
+    else
+      render json: { errors: wake.errors.full_messages }, status: :unprocessable_entity
+    end
+  rescue ArgumentError => e
+    render json: { error: "Invalid date format: #{e.message}" }, status: :bad_request
   end
 
   def past
