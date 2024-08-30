@@ -1,5 +1,4 @@
 class WakesController < ApplicationController
-  before_action :authorize
   def index
     user = User.find_by(email: params[:email])
     wakes = user.wakes

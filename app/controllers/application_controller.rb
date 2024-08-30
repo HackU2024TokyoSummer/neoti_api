@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :verify_token
+  # before_action :verify_token
 
   private
 
