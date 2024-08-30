@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   post '/wakes/create' => 'wakes#create', as: :wakes_create
   get '/pastwakes' => 'wakes#past'
   put '/neoti' => 'wakes#neoti'
+
+  post '/customer' => 'customers#main'
   # resources :wakes
   # Defines the root path route ("/")
   # root "posts#index"

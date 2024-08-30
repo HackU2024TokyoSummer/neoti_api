@@ -1,6 +1,8 @@
 class CustomersController < ApplicationController
+  skip_before_action :verify_token
   # customerを登録する
   def main
+    user = User.find_by(email: params[:email])
     endpoint = "/v1/customers"
     uri = URI.parse(ENV['BASE_URL'] + endpoint)
 
@@ -10,8 +12,8 @@ class CustomersController < ApplicationController
     user
 
     data = {
-      name: @current_user.name,
-      email: @current_user.email,
+      name: user.name,
+      email: user.email,
     }
 
     # リクエストの作成
@@ -31,7 +33,7 @@ class CustomersController < ApplicationController
       if customer_id
         # IDをデータベースに保存
         # @current_user.update(external_customer_id: customer_id)
-        result = Customer.create!(customer_fincode_id: customer_id, user_id: @current_user.id)
+        result = Customer.create!(customer_fincode_id: customer_id, user_id: user.id)
         puts "SUCCESS: Customer ID #{result.customer_fincode_id} saved to database"
       else
         puts "ERROR: Customer ID not found in response"
