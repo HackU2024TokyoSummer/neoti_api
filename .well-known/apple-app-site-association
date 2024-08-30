@@ -1,0 +1,20 @@
+{
+    "applinks":
+    {
+        "details":
+        [
+            {
+                "appIDs":
+                [
+                    "com.hosonuma.sakki.no-neochi-app",
+                ],
+                "components":
+                [
+                    {
+                        "/": "/pay/*",
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -5,7 +5,7 @@ class WakesController < ApplicationController
   skip_before_action :verify_token
   def index
     user = User.find_by(email: params[:email])
-    wakes = Wake.where(user_id: user.id).where('wake_time > ?', Time.current)
+    wakes = Wake.where(user_id: user.id, neoti: false).where('wake_time > ?', Time.current)
 
     puts wakes
 

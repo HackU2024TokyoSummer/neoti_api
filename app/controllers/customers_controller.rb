@@ -63,7 +63,7 @@ class CustomersController < ApplicationController
 
     # リクエストの作成
     request = Net::HTTP::Post.new(uri.request_uri)
-    request['Authorization'] = "Bearer #{API_KEY}"
+    request['Authorization'] = "Bearer #{ENV['API_KEY']}"
     request['Content-Type'] = 'application/json'
 
     request.body = data.to_json
@@ -78,10 +78,11 @@ class CustomersController < ApplicationController
     # レスポンスの表示
     puts response.body
   end
-
+  # 決済登録
   def payment
+    user = User.find_by(email: params[:email])
     endpoint = "/v1/payments"
-    uri = URI.parse(BASE_URL + endpoint)
+    uri = URI.parse(ENV['BASE_URL'] + endpoint)
 
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -95,7 +96,47 @@ class CustomersController < ApplicationController
 
     # リクエストの作成
     request = Net::HTTP::Post.new(uri.request_uri)
-    request['Authorization'] = "Bearer #{API_KEY}"
+    request['Authorization'] = "Bearer #{ENV['API_KEY']}"
+    request['Content-Type'] = 'application/json'
+
+    request.body = data.to_json
+
+    # リクエストの送信
+    response = http.request(request)
+
+    case response
+    when Net::HTTPSuccess
+      puts 'SUCCESS'
+    else
+      puts 'ERROR'
+    end
+
+    # レスポンスの表示
+    puts response.body
+  end
+
+# 決済実行
+  def register
+    order_id = 'o_eWWWcnYCSLe9yZXKrcn5Mw'
+    endpoint = "/v1/payments/#{order_id}"
+    query_params =  {
+      pay_type: 'Card',
+    }
+
+    uri = URI.parse(ENV['BASE_URL'] + endpoint)
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+
+    data = {
+      pay_type: "Card",
+      access_id: "a_A7xGvXKgQduuFhN4KIwtLQ",
+      token: "37393334306132633839663464323934383662613438396431313365613933643466373163353333383534656337633537623636343664303439323534353262"
+    }
+
+    # リクエストの作成
+    request = Net::HTTP::Put.new(uri.request_uri)
+    request['Authorization'] = "Bearer #{ENV['API_KEY']}"
     request['Content-Type'] = 'application/json'
 
     request.body = data.to_json
