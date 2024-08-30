@@ -9,8 +9,9 @@ class WakesController < ApplicationController
     render json: wakes.as_json, status: :ok
   end
   def create
+    user = User.find_by(email: params[:email])
     time = DateTime.parse(params[:wake_time])
-    wake = Wake.create!(wake_time: time, user_id: @current_user.id, billing: params[:billing])
+    wake = Wake.create!(wake_time: time, user_id: user.id, billing: params[:billing])
 
     render json: wake, status: :ok
   end
