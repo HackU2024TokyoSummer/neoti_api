@@ -1,10 +1,12 @@
 class WakesController < ApplicationController
-  # skip_before_action :authorize
+  skip_before_action :verify_token
   def index
     user = User.find_by(email: params[:email])
-    wakes = user.wakes
+    wakes = Wake.where(user_id: user.id)
 
-    render json: wakes.as_json(only: [:id, :wake_time, :billing])
+    puts wakes
+
+    render json: wakes.as_json, status: :ok
   end
   def create
     time = DateTime.parse(params[:wake_time])
