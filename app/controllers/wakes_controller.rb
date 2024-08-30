@@ -1,18 +1,19 @@
 class WakesController < ApplicationController
   before_action :authorize
-  def index
-    wakes = @current_user.wakes.where(waked: false)
 
-    render json: wakes.as_json(only: [:id, :wake_time])
+  def index
+    wakes = current_user.wakes.where(waked: false)
+    render json: wakes.as_json(only: [:id, :wake_time, :billing])
   end
+
   def create
     time = DateTime.parse(params[:wake_time])
-    wake = Wake.create!(wake_time: time, user_id: @current_user.id, billing: params[:billing])
-
-    render json: wake, status: :ok
+    wake = current_user.wakes.create!(wake_time: time, billing: params[:billing])
+    render json: wake, status: :created
   end
 
   def past
-    total_money = Wake.where(user_id: current_user.id, neoti: true).sum(:billing)
+    total_money = current_user.wakes.where(neoti: true).sum(:billing)
+    render json: { total_money: total_money }, status: :ok
   end
 end
