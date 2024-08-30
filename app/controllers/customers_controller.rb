@@ -49,7 +49,8 @@ class CustomersController < ApplicationController
 
   # カード登録
   def card
-    endpoint = "/v1/customers/#{@current_user.customer.customer_fincode_id}/cards"
+    user = User.find_by(email: params[:email])
+    endpoint = "/v1/customers/#{user.customer.customer_fincode_id}/cards"
     uri = URI.parse(ENV['BASE_URL'] + endpoint)
 
     http = Net::HTTP.new(uri.host, uri.port)
