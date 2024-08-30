@@ -1,43 +1,39 @@
-class ApplicationController < ActionController::Base
-  # before_action :verify_token
+class ApplicationController < ActionController::API
+  before_action :verify_token
 
   private
 
   def verify_token
-    token = request.headers['Authorization']&.split(' ')&.last
-
-    Rails.logger.debug "Authorization Header: #{request.headers['Authorization']}"
-    Rails.logger.debug "Extracted Token: #{token}"
+    # token = request.headers[:authorization]
+    token = request.headers[:authorization]&.split(' ')&.last
 
     unless token.present?
-      Rails.logger.warn "Token is missing"
       render json: { error: 'Authorization header is missing' }, status: :unauthorized
       return
     end
-
     begin
-      decoded = JWT.decode(token, Rails.application.secret_key_base, true, { algorithm: 'HS256' })[0]
-      Rails.logger.debug "Decoded Token: #{decoded}"
+      # トークンをデコード
+      # decoded = HashWithIndifferentAccess.new (JWT.decode(token, Rails.application.credentials[:secret_key_base])[0])
+      decoded = JWT.decode(token, JWT_SECRET_KEY, true, { algorithm: 'HS256' })
+
 
       # expが切れているかチェック
-      if decoded['exp'].nil? || Time.at(decoded['exp']) < Time.now
-        Rails.logger.warn "Token has expired"
+      if decoded[:exp].nil? || decoded[:exp] < Time.now.to_i
         render json: { error: 'Token has expired' }, status: :unauthorized
         return
       end
-
       # userが存在するかチェック
-      @current_user = User.find(decoded['user_id'])
-      Rails.logger.debug "Current User: #{@current_user.id}"
-
-      # jtiが有効かチェック
-      unless decoded['jti'] == @current_user.jti
-        Rails.logger.warn "Invalid JTI"
+      @current_user = User.find_by(id: decoded[:user_id])
+      unless @current_user
         render json: { error: 'Invalid token' }, status: :unauthorized
         return
       end
-    rescue JWT::DecodeError, ActiveRecord::RecordNotFound => e
-      Rails.logger.error "Token verification error: #{e.message}"
+      # jtiが有効かチェック
+      unless decoded[:jti] == @current_user.jti
+        render json: { error: 'Invalid token' }, status: :unauthorized
+        return
+      end
+    rescue ActiveRecord::RecordNotFound, JWT::DecodeError => e
       render json: { error: e.message }, status: :unauthorized
     end
   end
@@ -51,9 +47,8 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize
-    unless logged_in?
-      Rails.logger.warn "User not logged in"
-      render json: { message: 'Please log in' }, status: :unauthorized
-    end
+    render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
   end
+
+
 end
