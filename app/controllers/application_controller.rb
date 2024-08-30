@@ -1,3 +1,6 @@
+
+JWT_SECRET_KEY = Rails.application.credentials.secret_key_base || Rails.application.secrets.secret_key_base
+
 class ApplicationController < ActionController::API
   before_action :verify_token
 
@@ -13,7 +16,9 @@ class ApplicationController < ActionController::API
     end
     begin
       # トークンをデコード
-      decoded = HashWithIndifferentAccess.new (JWT.decode(token, Rails.application.credentials[:secret_key_base])[0])
+      # decoded = HashWithIndifferentAccess.new (JWT.decode(token, Rails.application.credentials[:secret_key_base])[0])
+      decoded = JWT.decode(token, JWT_SECRET_KEY, true, { algorithm: 'HS256' })
+
 
       # expが切れているかチェック
       if decoded[:exp].nil? || decoded[:exp] < Time.now.to_i
