@@ -13,7 +13,10 @@ class WakesController < ApplicationController
   end
   def create
     user = User.find_by(email: params[:email])
-    time = DateTime.parse(params[:wake_time])
+    Time.zone = 'Tokyo'
+
+    # 文字列をDateTimeオブジェクトに変換し、JSTに設定
+    time = Time.zone.parse(params[:wake_time])
     wake = Wake.create!(wake_time: time, user_id: user.id, billing: params[:billing])
     render json: wake, status: :ok
   end
