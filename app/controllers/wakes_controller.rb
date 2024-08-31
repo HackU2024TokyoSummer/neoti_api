@@ -49,7 +49,7 @@ class WakesController < ApplicationController
       puts res['access_id']
 
       access_id = res['access_id']
-      wake = Wake.create!(wake_time: time, user_id: user.id, billing: params[:billing], access_id: access_id)
+      wake = Wake.create!(wake_time: time, user_id: user.id, billing: params[:billing], access_id: access_id, order_id: res['order_id'])
       render json: wake, status: :ok
     else
       puts 'ERROR'
