@@ -16,7 +16,6 @@ Rails.application.routes.draw do
 
   post '/customer' => 'customers#main'
   post '/card' => 'customers#card'
-  post '/payment' => 'customers#payment'
   put '/register' => 'customers#register'
   # resources :wakes
   # Defines the root path route ("/")
