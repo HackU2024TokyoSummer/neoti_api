@@ -29,7 +29,7 @@ class WakesController < ApplicationController
       pay_type: "Card",
       amount: params[:billing],
       job_code: "CAPTURE",
-      tds_type: "2",
+      tds_type: "0",
     }
 
     # リクエストの作成
@@ -46,10 +46,13 @@ class WakesController < ApplicationController
     when Net::HTTPSuccess
       puts 'SUCCESS'
       res = JSON.parse(response.body)
+      puts res
       puts res['access_id']
+      puts res['id']
+
 
       access_id = res['access_id']
-      wake = Wake.create!(wake_time: time, user_id: user.id, billing: params[:billing], access_id: access_id, order_id: res['order_id'])
+      wake = Wake.create!(wake_time: time, user_id: user.id, billing: params[:billing], access_id: access_id, order_id: res['id'])
       render json: wake, status: :ok
     else
       puts 'ERROR'

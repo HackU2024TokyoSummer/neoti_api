@@ -113,10 +113,10 @@ class CustomersController < ApplicationController
     puts response.body
   end
 
-# 決済実行
+  #決済実行
   def register
     user = User.find_by(email: params[:email])
-    order_id = 'o_YsgwrTdcT8m8tgl3-oJujg'
+    order_id = params[:order_id]
     endpoint = "/v1/payments/#{order_id}"
     # query_params =  {
     #   pay_type: 'Card',
@@ -129,9 +129,10 @@ class CustomersController < ApplicationController
 
     data = {
       pay_type: "Card",
-      access_id: "a_NLsLdCyLS_KGIM5sGWi0kQ",
+      access_id: params[:access_id],
       card_id: "cs_grSZR_KuQTWxmY2q5ckEJQ",
-      customer_id: "c_L99T0pz8R4ueI0EJwP5J-g"
+      customer_id: "c_L99T0pz8R4ueI0EJwP5J-g",
+      method: "1"
     }
 
     # リクエストの作成
@@ -154,5 +155,38 @@ class CustomersController < ApplicationController
     # レスポンスの表示
     puts response.body
   end
+
+  # def auth
+  #   access_id = 'a_NLsLdCyLS_KGIM5sGWi0kQ'
+  #   endpoint = "/v1/secure2/#{access_id}"
+  #   uri = URI.parse(ENV['BASE_URL'] + endpoint)
+  #
+  #   http = Net::HTTP.new(uri.host, uri.port)
+  #   http.use_ssl = true
+  #
+  #   data = {
+  #     param: '<Value you received in tds2_ret_url>'
+  #   }
+  #
+  #   # リクエストの作成
+  #   request = Net::HTTP::Put.new(uri.request_uri)
+  #   request['Authorization'] = "Bearer #{API_KEY}"
+  #   request['Content-Type'] = 'application/json'
+  #
+  #   request.body = data.to_json
+  #
+  #   # リクエストの送信
+  #   response = http.request(request)
+  #
+  #   case response　
+  #   when Net::HTTPSuccess
+  #     puts 'SUCCESS'
+  #   else
+  #     puts 'ERROR'
+  #   end
+  #
+  #   # レスポンスの表示
+  #   puts response.body
+  # end
 
 end
