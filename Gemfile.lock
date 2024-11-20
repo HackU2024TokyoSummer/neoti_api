@@ -113,7 +113,6 @@ GEM
       net-smtp
     marcel (1.0.4)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.7)
     minitest (5.25.1)
     msgpack (1.7.2)
     net-imap (0.4.14)
@@ -217,8 +216,8 @@ GEM
       rubocop-rails
     ruby-progressbar (1.13.0)
     securerandom (0.3.1)
-    sqlite3 (2.0.4)
-      mini_portile2 (~> 2.8.0)
+    sqlite3 (2.3.0-x86_64-darwin)
+    sqlite3 (2.3.0-x86_64-linux-gnu)
     stringio (3.1.1)
     stripe (12.5.0)
     strscan (3.1.0)
