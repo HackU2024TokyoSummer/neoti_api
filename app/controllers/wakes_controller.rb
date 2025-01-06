@@ -2,7 +2,6 @@ require 'time'
 
 
 class WakesController < ApplicationController
-  skip_before_action :verify_token
   def index
     user = User.find_by(email: params[:email])
     wakes = Wake.where(user_id: user.id, neoti: false).where('wake_time > ?', Time.current)
@@ -44,13 +43,7 @@ class WakesController < ApplicationController
 
     case response
     when Net::HTTPSuccess
-      puts 'SUCCESS'
       res = JSON.parse(response.body)
-      puts res
-      puts res['access_id']
-      puts res['id']
-
-
       access_id = res['access_id']
       wake = Wake.create!(wake_time: time, user_id: user.id, billing: params[:billing], access_id: access_id, order_id: res['id'])
       render json: wake, status: :ok

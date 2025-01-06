@@ -1,5 +1,4 @@
 class CustomersController < ApplicationController
-  skip_before_action :verify_token
   # customerを登録する
   def main
     user = User.find_by(email: params[:email])
@@ -12,7 +11,6 @@ class CustomersController < ApplicationController
     user
 
     data = {
-      name: user.name,
       email: user.email,
     }
 
@@ -31,6 +29,7 @@ class CustomersController < ApplicationController
       response_data = JSON.parse(response.body)
       customer_id = response_data['id']
       if customer_id
+        #
         # IDをデータベースに保存
         # @current_user.update(external_customer_id: customer_id)
         result = Customer.create!(customer_fincode_id: customer_id, user_id: user.id)

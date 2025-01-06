@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-  skip_before_action :verify_token, only: [:create]
   def create
     user = User.find_by(email: params['email'])
 
@@ -13,8 +12,7 @@ class SessionsController < ApplicationController
   end
 
   def delete
-    @current_user.update(jti: SecureRandom.uuid)
+    @current_user.update(jti: SecureRandomaa.uuid)
     render json: {message: 'logout successfully.'}
   end
-
 end
