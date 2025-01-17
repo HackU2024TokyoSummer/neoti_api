@@ -1,24 +1,4 @@
-# README
+# 寝落ちしたら課金されてしまうアプリ(バックエンド)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+HackU2024Tokyo Summerに出場した際に作成したアプリのバックエンドリポジトリ。
+Railsを使用。課金部分はFincode APIを用いた。
